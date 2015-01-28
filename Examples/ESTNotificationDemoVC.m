@@ -17,6 +17,8 @@
 @property (nonatomic, strong) ESTBeaconManager  *beaconManager;
 @property (nonatomic, strong) ESTBeaconRegion   *beaconRegion;
 @property (nonatomic, strong) IBOutlet UIView            *mainView;
+@property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, strong) NSMutableDictionary *dict_reorder;
 
 @end
 
@@ -44,7 +46,21 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"Enter Notification");
+    // start with HTTP request
+    self.responseData = [[NSMutableData alloc] init];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:
+                             [NSURL URLWithString:@"http://129.132.42.250/~xu/serviceDemo/notification.php"]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if(!connection){
+        NSLog(@"Connection Failed");
+    }
+
+    
+    
+    
+    
+    //NSLog(@"Enter Notification");
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -93,6 +109,8 @@
 }
 
 - (IBAction)buttonClick:(id)sender {
+    [self.btnReorder setEnabled:NO];
+    self.btnReorder.hidden = YES;
     self.lblStatus.text = @"Thanks. The reorder service will be conducted in 24 hours.";
 }
 
@@ -133,6 +151,103 @@
 {
     [self.beaconManager stopMonitoringForRegion:self.beaconRegion];
     [self.beaconManager startMonitoringForRegion:self.beaconRegion];
+}
+
+
+// implemented HTTP request methods
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    //NSLog(@"didReceiveResponse");
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.responseData appendData:data];
+    NSString *someString = [NSString stringWithFormat:@"%@", data];
+    //NSLog(@"== didReceiveData: %@",someString);
+    //NSLog(@"didReceiveData of %d bytes",[self.responseData length]);
+    //NSLog(@"responseData length: %d bytes",[self.responseData length]);
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"didFailWithError");
+    NSLog([NSString stringWithFormat:@"Connection failed: %@", [error description]]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    //NSLog(@"connectionDidFinishLoading");
+    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+    
+    if ([self.responseData length] != 0){
+        // convert to JSON
+        NSError *myError = nil;
+        NSDictionary *res = [NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingMutableLeaves error:&myError];
+        
+        NSArray *resArr = [res objectForKey:@"basic"];
+        
+        //NSLog(@"num: %d", [resArr count]);
+        // show all values
+        self.dict_reorder =[[NSMutableDictionary alloc] init];
+        NSString *pName = [[NSString alloc] init];
+        
+        for(int i=0; i<[resArr count]; i++){
+            for(id key in resArr[i]) {
+            
+                id value = [resArr[i] objectForKey:key];
+            
+                NSString *keyAsString = (NSString *)key;
+                NSString *valueAsString = (NSString *)value;
+            
+                //NSLog(@"key: %@", keyAsString);
+                //NSLog(@"value: %@", valueAsString);
+                
+                // add the entry into dict_reorder
+                if ([keyAsString isEqualToString:@"product_name"]) {
+                    pName = valueAsString;
+                }else if ([keyAsString isEqualToString:@"reorder"]){
+                    if ([self.dict_reorder objectForKey:pName]) {
+                        //NSLog(@"key exists already");
+                    }else{
+                        //NSLog(@"key not exists yet");
+                        [self.dict_reorder setObject:valueAsString forKey:pName];
+                        pName = @"";
+                    }
+                }
+                
+                
+            }
+        }
+    
+        //check dict_reorder
+        for(id key in self.dict_reorder){
+            id value = [self.dict_reorder objectForKey:key];
+            NSString *keyAS = (NSString *)key;
+            NSString *valueAS = (NSString *)value;
+            
+            NSLog(@"Status: %@ - %@", keyAS, valueAS);
+        }
+        
+        //set button status
+        if ([[self.dict_reorder objectForKey:currentProductName] isEqualToString:@"1"]) {
+            //reorder=1, disable button click
+            [self.btnReorder setEnabled:NO];
+            self.btnReorder.hidden = YES;
+            self.lblStatus.text = @"Thanks. The reorder service will be conducted in 24 hours.";
+        }else{
+            //do nothing
+        }
+        
+        // extract specific value...
+        NSArray *results = [res objectForKey:@"results"];
+        
+        for (NSDictionary *result in results) {
+            NSString *icon = [result objectForKey:@"icon"];
+            NSLog(@"icon: %@", icon);
+        }
+        
+    }else{
+        // do nothing
+    }
+    
 }
 
 @end

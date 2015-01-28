@@ -65,8 +65,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     self.title = @"Product Nearby";
-    //NSLog(@"Enter Beacons");
-    
+
     [self.tableView registerClass:[ESTTableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
 }
 
@@ -303,7 +302,7 @@
         //cell.textLabel.text = [NSString stringWithFormat:@"Major: %@, Minor: %@", beacon.major, beacon.minor];
         cell.textLabel.text = [NSString stringWithFormat:@"%@", beaconName];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Distance: %.2f", [beacon.distance floatValue]];
-        NSLog(@"-- major %@, minor %@, name %@", beacon.major, beacon.minor, beaconName);
+        //NSLog(@"-- major %@, minor %@, name %@", beacon.major, beacon.minor, beaconName);
     }
     else
     {
