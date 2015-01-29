@@ -46,18 +46,8 @@
 {
     [super viewDidLoad];
     
-    // start with HTTP request
-    self.responseData = [[NSMutableData alloc] init];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:@"http://129.132.42.250/~xu/serviceDemo/notification.php"]];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if(!connection){
-        NSLog(@"Connection Failed");
-    }
-
-    
-    
+    // check button status
+    [self issueHTTPRequest:@"http://129.132.42.250/~xu/serviceDemo/notification.php"];
     
     
     //NSLog(@"Enter Notification");
@@ -109,6 +99,14 @@
 }
 
 - (IBAction)buttonClick:(id)sender {
+    NSString *pname = [currentProductName stringByReplacingOccurrencesOfString:@" "
+                                                    withString:@"%20"];
+    
+    NSString *url = [NSString stringWithFormat:@"http://129.132.42.250/~xu/serviceDemo/update.php?pname=%@", pname];
+    NSLog(@"=== %@", url);
+    
+    [self issueHTTPRequest:url];
+    
     [self.btnReorder setEnabled:NO];
     self.btnReorder.hidden = YES;
     self.lblStatus.text = @"Thanks. The reorder service will be conducted in 24 hours.";
@@ -154,6 +152,20 @@
 }
 
 
+
+- (void)issueHTTPRequest: (NSString *)callURL{
+    // start with HTTP request
+    self.responseData = [[NSMutableData alloc] init];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:
+                             [NSURL URLWithString:callURL]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if(!connection){
+        NSLog(@"Connection Failed");
+    }
+    // end with HTTP request
+}
+
 // implemented HTTP request methods
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     //NSLog(@"didReceiveResponse");
@@ -175,7 +187,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     //NSLog(@"connectionDidFinishLoading");
-    NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
+    //NSLog(@"Succeeded! Received %d bytes of data",[self.responseData length]);
     
     if ([self.responseData length] != 0){
         // convert to JSON
