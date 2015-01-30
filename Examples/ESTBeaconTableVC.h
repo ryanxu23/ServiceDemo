@@ -12,6 +12,8 @@
 extern NSString *currentProductName;
 extern NSMutableArray * arrayName;
 
+
+
 typedef enum : int
 {
     ESTScanTypeBluetooth,

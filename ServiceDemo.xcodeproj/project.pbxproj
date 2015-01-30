@@ -52,7 +52,6 @@
 		954331A11A6871570079B873 /* ESTMotionUUIDSettingsDemoVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ESTMotionUUIDSettingsDemoVC.xib; sourceTree = "<group>"; };
 		95A43D751940CDDB004D81E3 /* ESTCloudBeaconTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTCloudBeaconTableVC.h; sourceTree = "<group>"; };
 		95A43D761940CDDB004D81E3 /* ESTCloudBeaconTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTCloudBeaconTableVC.m; sourceTree = "<group>"; };
-		95B1A64D1A4AC8BA00102220 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = ../../EstimoteSDK/libEstimoteSDK.a; sourceTree = "<group>"; };
 		95C7C34F1941BAA300D9BF17 /* ESTCloudBeaconTableVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ESTCloudBeaconTableVC.xib; sourceTree = "<group>"; };
 		95E943611A1D55C4000A7CCF /* ESTBulkUpdaterDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBulkUpdaterDemoVC.h; sourceTree = "<group>"; };
 		95E943621A1D55C4000A7CCF /* ESTBulkUpdaterDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTBulkUpdaterDemoVC.m; sourceTree = "<group>"; };
@@ -81,10 +80,8 @@
 		AC39C3D218D72A6F00B38212 /* ESTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESTViewController.h; sourceTree = "<group>"; };
 		AC39C3D318D72A6F00B38212 /* ESTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESTViewController.m; sourceTree = "<group>"; };
 		AC39C3D518D72A6F00B38212 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		AC39C3DC18D72A6F00B38212 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AC39C3F218D72BA700B38212 /* ESTBeaconTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconTableVC.h; sourceTree = "<group>"; };
 		AC39C3F318D72BA700B38212 /* ESTBeaconTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTBeaconTableVC.m; sourceTree = "<group>"; };
-		AC39C3F518D7316A00B38212 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEstimoteSDK.a; path = ../EstimoteSDK/libEstimoteSDK.a; sourceTree = "<group>"; };
 		AC39C3F718D7319500B38212 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AC39C3F918D7346C00B38212 /* ESTProximityDemoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTProximityDemoVC.h; sourceTree = "<group>"; };
 		AC39C3FA18D7346C00B38212 /* ESTProximityDemoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESTProximityDemoVC.m; sourceTree = "<group>"; };
@@ -135,14 +132,11 @@
 				A3E19A3B1A724B2A009D9F57 /* libEstimoteSDK.a */,
 				A3E19A371A70EA5E009D9F57 /* CoreBluetooth.framework */,
 				A3E19A351A70EA55009D9F57 /* CoreLocation.framework */,
-				95B1A64D1A4AC8BA00102220 /* libEstimoteSDK.a */,
 				A154DE5518E0395F00734BD6 /* AdSupport.framework */,
 				AC39C3F718D7319500B38212 /* SystemConfiguration.framework */,
-				AC39C3F518D7316A00B38212 /* libEstimoteSDK.a */,
 				AC39C3BD18D72A6F00B38212 /* Foundation.framework */,
 				AC39C3BF18D72A6F00B38212 /* CoreGraphics.framework */,
 				AC39C3C118D72A6F00B38212 /* UIKit.framework */,
-				AC39C3DC18D72A6F00B38212 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -395,7 +389,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					../../EstimoteSDK/Headers,
 					"$(SRCROOT)/EstimoteSDK/Headers",
 				);
 				INFOPLIST_FILE = "Examples/ServiceDemo-Info.plist";
@@ -420,7 +413,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					../../EstimoteSDK/Headers,
 					"$(SRCROOT)/EstimoteSDK/Headers",
 				);
 				INFOPLIST_FILE = "Examples/ServiceDemo-Info.plist";

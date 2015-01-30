@@ -48,6 +48,9 @@
 
 @implementation ESTBeaconTableVC
 
+//set delay time for auto-cancelling notifications, if not responsed
+NSTimeInterval delayTime = 10.0;
+
 - (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(ESTBeacon *))completion
 {
     self = [super init];
@@ -67,6 +70,7 @@
     self.title = @"Product Nearby";
 
     [self.tableView registerClass:[ESTTableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -356,65 +360,61 @@
 - (void)beaconManager:(ESTBeaconManager *)manager didEnterRegion:(ESTBeaconRegion *)region
 {
     if ([region.identifier isEqualToString:@"firstRegionIdentifier"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Reorder Espresso coffee capsules";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+
+        [self registerNotification:@"Reorder Espresso coffee capsules"];
+        
     }else if ([region.identifier isEqualToString:@"secondRegionIdentifier"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Reorder a HP ink cartridge";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+
+        [self registerNotification:@"Reorder a HP ink cartridge"];
+        
     }else if ([region.identifier isEqualToString:@"thirdRegionIdentifier"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Reorder a Canon ink cartridge";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    }else if ([region.identifier isEqualToString:@"EstimoteSampleRegion"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"In EstimoteSampleRegion";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+
+        [self registerNotification:@"Reorder a Canon ink cartridge"];
+        
     }else{
-        /*
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = region.identifier; //@"In Undefined Status";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-         */
+
     }
 }
 
 - (void)beaconManager:(ESTBeaconManager *)manager didExitRegion:(ESTBeaconRegion *)region
 {
     if ([region.identifier isEqualToString:@"firstRegionIdentifier"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Leave Espresso machine";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+        
+        [self registerNotification:@"Leave Espresso machine"];
+        
     }else if ([region.identifier isEqualToString:@"secondRegionIdentifier"]) {
+        /*
         UILocalNotification *notification = [UILocalNotification new];
         notification.alertBody = @"Leave HP printer";
         notification.soundName = UILocalNotificationDefaultSoundName;
         [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+        
+        [self performSelector:@selector(deleteNotification:) withObject:notification afterDelay:delayTime];
+        //[[UIApplication sharedApplication] cancelAllLocalNotifications];
+        */
+        
+        [self registerNotification:@"Leave HP printer"];
+        
     }else if ([region.identifier isEqualToString:@"thirdRegionIdentifier"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Leave Canon printer";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-    }else if ([region.identifier isEqualToString:@"EstimoteSampleRegion"]) {
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = @"Out EstimoteSampleRegion";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+        
+        [self registerNotification:@"Leave Canon printer"];
+        
     }else{
-        /*
-        UILocalNotification *notification = [UILocalNotification new];
-        notification.alertBody = region.identifier; //@"Out Undefined Status";
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
-         */
+
     }
+}
+
+- (void)deleteNotification: (UILocalNotification *)notif{
+    [[UIApplication sharedApplication] cancelLocalNotification:notif];
+}
+
+-(void)registerNotification: (NSString *)title{
+    UILocalNotification *notification = [UILocalNotification new];
+    notification.alertBody = title;
+    //notification.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    
+    [self performSelector:@selector(deleteNotification:) withObject:notification afterDelay:delayTime];
 }
 
 @end
