@@ -50,6 +50,11 @@
 
 //set delay time for auto-cancelling notifications, if not responsed
 NSTimeInterval delayTime = 10.0;
+NSString * const NotificationCategoryIdent  = @"ACTIONABLE";
+NSString * const NotificationActionOneIdent = @"ACT_REORDER";
+
+
+
 
 - (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(ESTBeacon *))completion
 {
@@ -114,8 +119,8 @@ NSTimeInterval delayTime = 10.0;
                                                                   identifier:@"secondRegionIdentifier"];
 
     self.thirdBeaconRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
-                                                                       major: 39813
-                                                                       minor: 29621
+                                                                       major: 39813  //29813
+                                                                       minor: 29621  //39621
                                                                   identifier:@"thirdRegionIdentifier"];
     
     /*
@@ -409,12 +414,52 @@ NSTimeInterval delayTime = 10.0;
 }
 
 -(void)registerNotification: (NSString *)title{
+    //register notification
+    UIMutableUserNotificationAction *notificationAction1 = [[UIMutableUserNotificationAction alloc] init];
+    //notificationAction1.identifier = NotificationActionOneIdent;
+    notificationAction1.identifier = title;
+    notificationAction1.title = @"Reorder";
+    notificationAction1.activationMode = UIUserNotificationActivationModeBackground;
+    notificationAction1.destructive = NO;
+    notificationAction1.authenticationRequired = NO;
+    
+    UIMutableUserNotificationCategory *notificationCategory = [[UIMutableUserNotificationCategory alloc] init];
+    notificationCategory.identifier = @"catReorder";
+    [notificationCategory setActions:@[notificationAction1] forContext:UIUserNotificationActionContextDefault];
+    [notificationCategory setActions:@[notificationAction1] forContext:UIUserNotificationActionContextMinimal];
+    
+    NSSet *categories = [NSSet setWithObjects:notificationCategory, nil];
+    
+    UIUserNotificationType notificationType = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:notificationType categories:categories];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    
+    
     UILocalNotification *notification = [UILocalNotification new];
     notification.alertBody = title;
     //notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.category = @"catReorder";
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
     
     [self performSelector:@selector(deleteNotification:) withObject:notification afterDelay:delayTime];
 }
+
+/*
+-(void)application: (UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler{
+    
+    NSLog(@"in the interactive notification.");
+    
+    if ([identifier isEqualToString:@"firstRegionIdentifier"]) {
+        NSLog(@"Reorder Espresso coffee");
+    }else if ([identifier isEqualToString:@"secondRegionIdentifier"]) {
+        NSLog(@"Reorder HP ink");
+    }else if ([identifier isEqualToString:@"thirdRegionIdentifier"]) {
+        NSLog(@"Reorder Canon ink");
+    }else{
+        
+    }
+}
+*/
 
 @end

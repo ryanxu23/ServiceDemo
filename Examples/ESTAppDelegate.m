@@ -96,4 +96,37 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+-(void)application: (UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler{
+    
+    //NSLog(@"in the interactive notification with: %@", identifier); //identifier=ACT_REORDER
+    
+    if ([identifier isEqualToString:@"Reorder Espresso coffee capsules"]) {
+        NSString *url = @"http://129.132.42.250/~xu/serviceDemo/update.php?pname=Nespresso%20Coffee%20Machine";
+        
+        
+        
+        NSLog(@"=== %@", url);
+
+        ESTNotificationDemoVC *notifVC = [[ESTNotificationDemoVC alloc]init];
+        [notifVC issueHTTPRequest:url];
+        
+    }else if ([identifier isEqualToString:@"Reorder a HP ink cartridge"]) {
+        
+        NSString *url = @"http://129.132.42.250/~xu/serviceDemo/update.php?pname=HP%20Printer";
+        
+        NSLog(@"=== %@", url);
+        
+        ESTNotificationDemoVC *notifVC = [[ESTNotificationDemoVC alloc]init];
+        [notifVC issueHTTPRequest:url];
+        
+    }else if ([identifier isEqualToString:@"Reorder a Canon ink cartridge"]) {
+        NSLog(@"Reorder Canon ink");
+    }else{
+    }
+    
+    if (completionHandler) {
+        completionHandler();
+    }
+}
+
 @end

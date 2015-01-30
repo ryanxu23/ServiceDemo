@@ -17,6 +17,7 @@ extern NSMutableArray * arrayName;
 @property (strong, nonatomic) IBOutlet UIButton *btnReorder;
 @property (strong, nonatomic) IBOutlet UILabel *lblStatus;
 
+- (void)issueHTTPRequest: (NSString *)callURL;
 - (id)initWithBeacon:(ESTBeacon *)beacon;
 
 @end

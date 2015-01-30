@@ -127,20 +127,22 @@
 
 - (void)beaconManager:(ESTBeaconManager *)manager didEnterRegion:(ESTBeaconRegion *)region
 {
+    /*
     UILocalNotification *notification = [UILocalNotification new];
     notification.alertBody = @"Enter region notification";
     notification.soundName = UILocalNotificationDefaultSoundName;
-    
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    */
 }
 
 - (void)beaconManager:(ESTBeaconManager *)manager didExitRegion:(ESTBeaconRegion *)region
 {
+    /*
     UILocalNotification *notification = [UILocalNotification new];
     notification.alertBody = @"Exit region notification";
     notification.soundName = UILocalNotificationDefaultSoundName;
-    
     [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+    */ 
 }
 
 #pragma mark -
@@ -174,7 +176,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.responseData appendData:data];
-    NSString *someString = [NSString stringWithFormat:@"%@", data];
+    //NSString *someString = [NSString stringWithFormat:@"%@", data];
     //NSLog(@"== didReceiveData: %@",someString);
     //NSLog(@"didReceiveData of %d bytes",[self.responseData length]);
     //NSLog(@"responseData length: %d bytes",[self.responseData length]);
