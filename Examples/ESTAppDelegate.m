@@ -100,7 +100,7 @@
     
     //NSLog(@"in the interactive notification with: %@", identifier); //identifier=ACT_REORDER
     
-    if ([identifier isEqualToString:@"Reorder Espresso coffee capsules"]) {
+    if ([identifier isEqualToString:@"Reorder Nespresso coffee capsules"]) {
         NSString *url = @"http://129.132.42.250/~xu/serviceDemo/update.php?pname=Nespresso%20Coffee%20Machine";
         
         

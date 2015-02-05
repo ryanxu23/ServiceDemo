@@ -67,7 +67,7 @@
         [self.btnReorder setTitle:@"Reorder a HP ink cartridge" forState:UIControlStateNormal];
     }else if([currentProductName isEqualToString:[arrayName objectAtIndex:2]]){
         [self.imgProduct setImage:[UIImage imageNamed:@"coffee_machine"]];
-        [self.btnReorder setTitle:@"Reorder Espresso coffee capsules" forState:UIControlStateNormal];
+        [self.btnReorder setTitle:@"Reorder Nespresso coffee capsules" forState:UIControlStateNormal];
     }else{
         
     }

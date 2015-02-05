@@ -49,7 +49,7 @@
 @implementation ESTBeaconTableVC
 
 //set delay time for auto-cancelling notifications, if not responsed
-NSTimeInterval delayTime = 10.0;
+NSTimeInterval delayTime = 7.0;
 NSString * const NotificationCategoryIdent  = @"ACTIONABLE";
 NSString * const NotificationActionOneIdent = @"ACT_REORDER";
 
@@ -364,9 +364,12 @@ NSString * const NotificationActionOneIdent = @"ACT_REORDER";
 
 - (void)beaconManager:(ESTBeaconManager *)manager didEnterRegion:(ESTBeaconRegion *)region
 {
+    //check reorder flags from HTTP request, set notification only a reorder is not issued.
+    
+    
     if ([region.identifier isEqualToString:@"firstRegionIdentifier"]) {
 
-        [self registerNotification:@"Reorder Espresso coffee capsules"];
+        [self registerNotification:@"Reorder Nespresso coffee capsules"];
         
     }else if ([region.identifier isEqualToString:@"secondRegionIdentifier"]) {
 
@@ -385,7 +388,7 @@ NSString * const NotificationActionOneIdent = @"ACT_REORDER";
 {
     if ([region.identifier isEqualToString:@"firstRegionIdentifier"]) {
         
-        [self registerNotification:@"Leave Espresso machine"];
+        [self registerNotification:@"Leave Nespresso machine"];
         
     }else if ([region.identifier isEqualToString:@"secondRegionIdentifier"]) {
         /*
